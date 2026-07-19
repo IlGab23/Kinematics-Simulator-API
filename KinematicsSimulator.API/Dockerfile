@@ -16,18 +16,18 @@ ARG BUILD_CONFIGURATION=Release
 
 WORKDIR /src
 
-COPY ["Kinematics-Simulator.API/Kinematics-Simulator.API.csproj", "Kinematics-Simulator.API/"]
-COPY ["Kinematics-Simulator.Application/Kinematics-Simulator.Application.csproj", "Kinematics-Simulator.Application/"]
-COPY ["Kinematics-Simulator.Domain/Kinematics-Simulator.Domain.csproj", "Kinematics-Simulator.Domain/"]
-COPY ["Kinematics-Simulator.Infrastructure/Kinematics-Simulator.Infrastructure.csproj", "Kinematics-Simulator.Infrastructure/"]
+COPY ["KinematicsSimulator.API/KinematicsSimulator.API.csproj", "KinematicsSimulator.API/"]
+COPY ["KinematicsSimulator.Application/KinematicsSimulator.Application.csproj", "KinematicsSimulator.Application/"]
+COPY ["KinematicsSimulator.Domain/KinematicsSimulator.Domain.csproj", "KinematicsSimulator.Domain/"]
+COPY ["KinematicsSimulator.Infrastructure/KinematicsSimulator.Infrastructure.csproj", "KinematicsSimulator.Infrastructure/"]
 
-RUN dotnet restore "./Kinematics-Simulator.API/Kinematics-Simulator.API.csproj"
+RUN dotnet restore "./KinematicsSimulator.API/KinematicsSimulator.API.csproj"
 
 COPY . .
 
-WORKDIR "/src/Kinematics-Simulator.API"
+WORKDIR "/src/KinematicsSimulator.API"
 
-RUN dotnet build "./Kinematics-Simulator.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./KinematicsSimulator.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 #----- Ambiente di preparazione e compilazione -------------------------------
 
 #----- Ambiente di publish ---------------------------------------------------
@@ -35,7 +35,7 @@ FROM build AS publish
 
 ARG BUILD_CONFIGURATION=Release
 
-RUN dotnet publish "./Kinematics-Simulator.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./KinematicsSimulator.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 #----- Ambiente di publish ---------------------------------------------------
 
 #----- Ambiente finale -------------------------------------------------------
@@ -45,4 +45,4 @@ WORKDIR /app
 
 COPY --from=publish /app/publish .
 
-ENTRYPOINT ["dotnet", "Kinematics-Simulator.API.dll"]
+ENTRYPOINT ["dotnet", "KinematicsSimulator.API.dll"]

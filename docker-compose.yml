@@ -1,11 +1,11 @@
 services:
 
   app:
-    image: Kinematics-Simulator-API
+    image: KinematicsSimulator-API
 
     build:
       context: .
-      dockerfile: Kinematics-Simulator.API\Dockerfile
+      dockerfile: KinematicsSimulator.API\Dockerfile
 
     ports:
       - "8080:8080"
