@@ -60,4 +60,25 @@ public class MruaTest
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeApproximately(expectedResult, 0.001);
     }
+
+    [Theory]
+    [InlineData(20.0, 0.0, 0.0)]
+    [InlineData(10.0, 20.0, -2.0)]
+    public void MRUA_Acceleration_NegativeOrZeroTime_ShouldReturnFailure(double velocity, double initVelocity, double time)
+    {
+        var result = PhysicsEngine.MRUA_Acceleration(velocity, initVelocity, time);
+
+        result.IsFailure.Should().BeTrue();
+        result.errorList.Should().ContainSingle(e => e.Name == "PhysicsEngine.MRUA_AccelerationNegativeTimeValue");
+    }
+
+    [Theory]
+    [InlineData(20.0, 0.0, 0.0)]
+    public void MRUA_Time_ZeroAcceleration_ShouldReturnFailure(double velocity, double initVelocity, double acceleration)
+    {
+        var result = PhysicsEngine.MRUA_Time(velocity, initVelocity, acceleration);
+
+        result.IsFailure.Should().BeTrue();
+        result.errorList.Should().ContainSingle(e => e.Name == "PhysicsEngine.MRUA_TimeZeroAccelerationValue");
+    }
 }

@@ -15,10 +15,12 @@ public static class PhysicsEngine
     }
     public static Result<double> MRU_Velocity(double distance, double timeInSeconds)
     {
+        if(timeInSeconds <= 0) return Error.Validation("PhysicsEngine.MRU_VelocityNegativeTimeValue", "Cannot assign 0 or less to time");
         return distance / timeInSeconds;
     }
     public static Result<double> MRU_Time(double distance, double velocity)
     {
+        if(velocity == 0) return Error.Validation("PhysicsEngine.MRU_TimeZeroVelocityValue", "Cannot assign 0 to velocity");
         return distance / velocity;
     }
 
@@ -33,10 +35,12 @@ public static class PhysicsEngine
     }
     public static Result<double> MRUA_Acceleration(double velocity, double initVelocity, double timeInSeconds)
     {
+        if(timeInSeconds <= 0) return Error.Validation("PhysicsEngine.MRUA_AccelerationNegativeTimeValue", "Cannot assign 0 or less to time");
         return (velocity - initVelocity) / timeInSeconds;
     }
     public static Result<double> MRUA_Time(double velocity, double initVelocity, double acceleration)
     {
+        if(acceleration == 0) return Error.Validation("PhysicsEngine.MRUA_TimeZeroAccelerationValue", "Cannot assign 0 to acceleration");
         return (velocity - initVelocity) / acceleration;
     }
 

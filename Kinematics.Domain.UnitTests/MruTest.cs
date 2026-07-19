@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using KinematicsSimulator.Domain.Services;
 
 namespace Kinematics.Domain.UnitTests;
@@ -59,5 +59,26 @@ public class MruTest
 
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeApproximately(expectedResult, 0.001);
+    }
+
+    [Theory]
+    [InlineData(100.0, 0.0)]
+    [InlineData(100.0, -5.0)]
+    public void MRU_Velocity_NegativeOrZeroTime_ShouldReturnFailure(double distance, double time)
+    {
+        var result = PhysicsEngine.MRU_Velocity(distance, time);
+
+        result.IsFailure.Should().BeTrue();
+        result.errorList.Should().ContainSingle(e => e.Name == "PhysicsEngine.MRU_VelocityNegativeTimeValue");
+    }
+
+    [Theory]
+    [InlineData(100.0, 0.0)]
+    public void MRU_Time_ZeroVelocity_ShouldReturnFailure(double distance, double velocity)
+    {
+        var result = PhysicsEngine.MRU_Time(distance, velocity);
+
+        result.IsFailure.Should().BeTrue();
+        result.errorList.Should().ContainSingle(e => e.Name == "PhysicsEngine.MRU_TimeZeroVelocityValue");
     }
 }
