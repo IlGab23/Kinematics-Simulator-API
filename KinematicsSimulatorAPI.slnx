@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="KinematicsSimulator.API/KinematicsSimulator.API.csproj" />
+    <Project Path="KinematicsSimulator.Application/KinematicsSimulator.Application.csproj" />
+    <Project Path="KinematicsSimulator.Domain/KinematicsSimulator.Domain.csproj" />
+    <Project Path="KinematicsSimulator.Infrastructure/KinematicsSimulator.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="Kinematics.Application.UnitTests/Kinematics.Application.UnitTests.csproj" />
+    <Project Path="Kinematics.Domain.UnitTests/Kinematics.Domain.UnitTests.csproj" />
+  </Folder>
+</Solution>
