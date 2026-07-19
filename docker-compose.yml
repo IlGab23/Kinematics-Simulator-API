@@ -5,7 +5,7 @@ services:
 
     build:
       context: .
-      dockerfile: KinematicsSimulator.API\Dockerfile
+      dockerfile: KinematicsSimulator.API/Dockerfile
 
     ports:
       - "8080:8080"
