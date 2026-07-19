@@ -18,4 +18,8 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Kinematics-Simulator.Domain\Kinematics-Simulator.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
