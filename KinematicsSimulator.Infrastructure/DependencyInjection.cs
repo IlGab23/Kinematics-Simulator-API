@@ -1,6 +1,7 @@
 using KinematicsSimulator.Application.Interfaces;
 using KinematicsSimulator.Application.Interfaces.Repositories;
 using KinematicsSimulator.Infrastructure.Persistance;
+using KinematicsSimulator.Infrastructure.Persistance.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,8 +25,8 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-        services.AddScoped<IUserRepository>(provider => provider.GetRequiredService<IUserRepository>());
-        services.AddScoped<ISimulationRepository>(provider => provider.GetRequiredService<ISimulationRepository>());
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ISimulationRepository, SimulationRepository>();
 
         return services;
     }
