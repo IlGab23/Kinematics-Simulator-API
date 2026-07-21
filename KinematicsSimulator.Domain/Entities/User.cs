@@ -2,6 +2,7 @@ using KinematicsSimulator.Domain.Entities.ValueObjects;
 using KinematicsSimulator.Domain.ResultPattern;
 
 namespace KinematicsSimulator.Domain.Entities;
+#pragma warning disable RCS1170, IDE0028
 
 public sealed class User
 {
