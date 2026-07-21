@@ -13,9 +13,9 @@ public class RegistrationTests
     [Fact]
     public async Task RegisterUser_GoodRegistration_ShouldReturnUserId()
     {
-        string email = "testEmail@gmail.com";
-        string userName = "testUserName";
-        string password = "testPassword";
+        const string email = "testEmail@gmail.com";
+        const string userName = "testUserName";
+        const string password = "testPassword";
 
         var command = new RegisterUserCommand(userName, email, password);
 
@@ -40,9 +40,9 @@ public class RegistrationTests
     [Fact]
     public async Task RegisterUser_EmailArleadyExistOnDb_ShouldReturnErrorOnEmailExistVerification()
     {
-        string email = "testEmail@gmail.com";
-        string userName = "testUserName";
-        string password = "testPassword";
+        const string email = "testEmail@gmail.com";
+        const string userName = "testUserName";
+        const string password = "testPassword";
 
         var command = new RegisterUserCommand(userName, email, password);
 
@@ -70,9 +70,9 @@ public class RegistrationTests
     [Fact]
     public async Task RegisterUser_BadEmail_ShouldReturnErrorOnEmailCreation()
     {
-        string email = "testEmailgmail.com";
-        string userName = "testUserName";
-        string password = "testPassword";
+        const string email = "testEmailgmail.com";
+        const string userName = "testUserName";
+        const string password = "testPassword";
 
         var command = new RegisterUserCommand(userName, email, password);
 
@@ -97,9 +97,9 @@ public class RegistrationTests
     [Fact]
     public async Task RegisterUser_CreationUserFailed_ShouldReturnErrorOnEmailCreation()
     {
-        string email = "testEmail@gmail.com";
-        string userName = "te";
-        string password = "testPassword";
+        const string email = "testEmail@gmail.com";
+        const string userName = "te";
+        const string password = "testPassword";
 
         var command = new RegisterUserCommand(userName, email, password);
 
@@ -120,8 +120,5 @@ public class RegistrationTests
         fakeUserRepo.Verify(repo => repo.AddAsync(It.IsAny<DomainUser>(), It.IsAny<CancellationToken>()), Times.Never);
         fakeAppDbContext.Verify(repo => repo.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
-
-    
-
 
 }
