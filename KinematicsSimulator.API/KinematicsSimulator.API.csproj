@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>KinematicsSimulator.API</RootNamespace>
+    <UserSecretsId>c1702b51-6f0a-439f-8030-3b60d6be16a8</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
