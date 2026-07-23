@@ -1,5 +1,6 @@
 using KinematicsSimulator.Application.Interfaces;
 using KinematicsSimulator.Application.Interfaces.Repositories;
+using KinematicsSimulator.Application.Interfaces.Security;
 using KinematicsSimulator.Domain.Entities.ValueObjects;
 using KinematicsSimulator.Domain.ResultPattern;
 using MediatR;
@@ -9,7 +10,7 @@ namespace KinematicsSimulator.Application.Features.User.Commands;
 
 public record RegisterUserCommand(string UserName, string Email, string Password) : IRequest<Result<Guid>>;
 
-public class RegisterUserHandler(IApplicationDbContext appDbContext, IUserRepository userRepo) : IRequestHandler<RegisterUserCommand, Result<Guid>>
+public class RegisterUserHandler(IApplicationDbContext appDbContext, IUserRepository userRepo, IPasswordHasher passHasher) : IRequestHandler<RegisterUserCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
@@ -19,7 +20,9 @@ public class RegisterUserHandler(IApplicationDbContext appDbContext, IUserReposi
         var emailResult = Email.Create(request.Email);
         if (emailResult.IsFailure) return emailResult.errorList;
 
-        var userResult = DomainUser.Create(request.UserName, emailResult.Value, request.Password);
+        string hashedPassword = await passHasher.Hash(request.Password);
+
+        var userResult = DomainUser.Create(request.UserName, emailResult.Value, hashedPassword);
         if (userResult.IsFailure) return userResult.errorList;
 
         await userRepo.AddAsync(userResult.Value, cancellationToken);
