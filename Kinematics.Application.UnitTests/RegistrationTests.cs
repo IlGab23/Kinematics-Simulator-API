@@ -1,9 +1,11 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using KinematicsSimulator.Application.Features.User.Commands;
 using KinematicsSimulator.Application.Interfaces;
 using KinematicsSimulator.Application.Interfaces.Repositories;
+using KinematicsSimulator.Application.Interfaces.Security;
 using KinematicsSimulator.Domain.Entities.ValueObjects;
 using Moq;
+using Xunit.Sdk;
 using DomainUser = KinematicsSimulator.Domain.Entities.User;
 
 namespace Kinematics.Application.UnitTests;
@@ -21,12 +23,13 @@ public class RegistrationTests
 
         var fakeUserRepo = new Mock<IUserRepository>();
         var fakeAppDbContext = new Mock<IApplicationDbContext>();
+        var fakePasswordHasher = new Mock<IPasswordHasher>();
 
         fakeUserRepo
             .Setup(repo => repo.GetByEmailAsync(command.Email, It.IsAny<CancellationToken>()))
             .ReturnsAsync((DomainUser?)null);
 
-        var handler = new RegisterUserHandler(fakeAppDbContext.Object, fakeUserRepo.Object);
+        var handler = new RegisterUserHandler(fakeAppDbContext.Object, fakeUserRepo.Object, fakePasswordHasher.Object);
 
         var result = await handler.Handle(command, CancellationToken.None);
 
@@ -51,12 +54,13 @@ public class RegistrationTests
 
         var fakeUserRepo = new Mock<IUserRepository>();
         var fakeAppDbContext = new Mock<IApplicationDbContext>();
+        var fakePasswordHasher = new Mock<IPasswordHasher>();
 
         fakeUserRepo
             .Setup(repo => repo.GetByEmailAsync(command.Email, It.IsAny<CancellationToken>()))
             .ReturnsAsync(existingUser);
 
-        var handler = new RegisterUserHandler(fakeAppDbContext.Object, fakeUserRepo.Object);
+        var handler = new RegisterUserHandler(fakeAppDbContext.Object, fakeUserRepo.Object, fakePasswordHasher.Object);
 
         var result = await handler.Handle(command, CancellationToken.None);
 
@@ -78,12 +82,13 @@ public class RegistrationTests
 
         var fakeUserRepo = new Mock<IUserRepository>();
         var fakeAppDbContext = new Mock<IApplicationDbContext>();
+        var fakePasswordHasher = new Mock<IPasswordHasher>();
 
         fakeUserRepo
             .Setup(repo => repo.GetByEmailAsync(command.Email, It.IsAny<CancellationToken>()))
             .ReturnsAsync((DomainUser?)null);
 
-        var handler = new RegisterUserHandler(fakeAppDbContext.Object, fakeUserRepo.Object);
+        var handler = new RegisterUserHandler(fakeAppDbContext.Object, fakeUserRepo.Object, fakePasswordHasher.Object);
 
         var result = await handler.Handle(command, CancellationToken.None);
 
@@ -105,12 +110,13 @@ public class RegistrationTests
 
         var fakeUserRepo = new Mock<IUserRepository>();
         var fakeAppDbContext = new Mock<IApplicationDbContext>();
+        var fakePasswordHasher = new Mock<IPasswordHasher>();
 
         fakeUserRepo
             .Setup(repo => repo.GetByEmailAsync(command.Email, It.IsAny<CancellationToken>()))
             .ReturnsAsync((DomainUser?)null);
 
-        var handler = new RegisterUserHandler(fakeAppDbContext.Object, fakeUserRepo.Object);
+        var handler = new RegisterUserHandler(fakeAppDbContext.Object, fakeUserRepo.Object, fakePasswordHasher.Object);
 
         var result = await handler.Handle(command, CancellationToken.None);
 

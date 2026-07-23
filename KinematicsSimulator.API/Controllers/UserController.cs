@@ -17,6 +17,16 @@ public class UserController(ISender sender) : ControllerBase
 
         var result = await sender.Send(command, cancellationToken);
 
-        return result.IsSuccess ? Ok() : BadRequest(result.errorList);
+        return result.IsSuccess ? Ok(result.Value) : BadRequest(result.errorList);
+    }
+
+    public record LoginUserRequest(string Email, string Password);
+
+    [HttpPost("login")]
+    public async Task<IActionResult> LoginUser([FromBody] LoginUserRequest request, CancellationToken cancellationToken)
+    {
+        var command = new LoginUserCommand(request.Email, request.Password);
+        var result = await sender.Send(command, cancellationToken);
+        return result.IsSuccess ? Ok(result.Value) : BadRequest(result.errorList);
     }
 }
