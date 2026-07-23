@@ -36,7 +36,15 @@ public sealed class PasswordHasher : IPasswordHasher
 
     public async Task<bool> Verify(string hashedPassword, string password)
     {
-        throw new NotImplementedException();
+        string[] splittedHash = hashedPassword.Split('-');
+        if (splittedHash.Length != 2) return false;
+
+        byte[] salt = Convert.FromBase64String(splittedHash[0]);
+        byte[] storedHash = Convert.FromBase64String(splittedHash[1]);
+
+        byte[] computedHash = await GenerateHashAsync(salt, password);
+
+        return CryptographicOperations.FixedTimeEquals(computedHash, storedHash);
     }
 
 }
