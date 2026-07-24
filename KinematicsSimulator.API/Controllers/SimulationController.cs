@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using KinematicsSimulator.Application.Features.Simulations.Commands;
+using KinematicsSimulator.Application.Features.Simulations.Queries;
 using KinematicsSimulator.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -33,6 +34,20 @@ public class SimulationController(ISender sender) : ControllerBase
         );
 
         var result = await sender.Send(command, cancellationToken);
+
+        return result.IsSuccess ? Ok(result.Value) : BadRequest(result.errorList);
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> GetSimulations(CancellationToken cancellationToken)
+    {
+        var userId = GetUserId();
+        if (userId is null) return Unauthorized("User ID is missing or invalid in the token.");
+
+        var query = new GetSimulationsQuery(userId.Value);
+
+        var result = await sender.Send(query, cancellationToken);
 
         return result.IsSuccess ? Ok(result.Value) : BadRequest(result.errorList);
     }
