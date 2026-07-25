@@ -1,6 +1,7 @@
 using KinematicsSimulator.Application.Interfaces;
 using KinematicsSimulator.Application.Interfaces.Repositories;
 using KinematicsSimulator.Application.Interfaces.Security;
+using KinematicsSimulator.Infrastructure.Errors;
 using KinematicsSimulator.Infrastructure.Persistance;
 using KinematicsSimulator.Infrastructure.Persistance.Repositories;
 using KinematicsSimulator.Infrastructure.Security;
@@ -47,6 +48,9 @@ public static class DependencyInjection
             });
 
         services.AddAuthorization();
+
+        services.AddProblemDetails();
+        services.AddExceptionHandler<GlobalExceptionHandler>();
 
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
