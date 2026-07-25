@@ -10,7 +10,7 @@ public class ResultValueTests
     {
         var result = ResultValue.Create(10.5);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Value.Should().Be(10.5);
     }
 

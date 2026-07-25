@@ -37,7 +37,7 @@ public class RegistrationTests
 
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Should().NotBeEmpty();
 
         fakeUserRepo.Verify(repo => repo.AddAsync(It.IsAny<DomainUser>(), It.IsAny<CancellationToken>()), Times.Once);

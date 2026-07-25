@@ -30,7 +30,7 @@ public class GetSimulationsTests
         var handler = new GetSimulationsHandler(fakeSimRepo.Object);
         var result = await handler.Handle(query, CancellationToken.None);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Should().BeOfType<SimulationsOutput>();
         result.Value.Simulations[0].Should().BeOfType<SimulationDTO>();
         result.Value.Simulations.Should().HaveCount(3);

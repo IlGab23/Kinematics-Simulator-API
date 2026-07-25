@@ -12,7 +12,7 @@ public class UserTests
         var emailResult = Email.Create("test@email.com");
         var result = User.Create("ValidUser", emailResult.Value, "passwordHash");
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.UserName.Should().Be("ValidUser");
     }
 

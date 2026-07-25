@@ -15,7 +15,7 @@ public class MruaTest
     {
         var result = PhysicsEngine.MRUA_EquationOfMotion(initPos, initVelocity, acceleration, time);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Should().BeApproximately(expectedResult, 0.001);
     }
 
@@ -29,7 +29,7 @@ public class MruaTest
     {
         var result = PhysicsEngine.MRUA_FinalVelocity(initVelocity, acceleration, time);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Should().BeApproximately(expectedResult, 0.001);
     }
 
@@ -43,7 +43,7 @@ public class MruaTest
     {
         var result = PhysicsEngine.MRUA_Acceleration(velocity, initVelocity, time);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Should().BeApproximately(expectedResult, 0.001);
     }
 
@@ -57,7 +57,7 @@ public class MruaTest
     {
         var result = PhysicsEngine.MRUA_Time(velocity, initVelocity, acceleration);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Should().BeApproximately(expectedResult, 0.001);
     }
 
