@@ -1,5 +1,6 @@
 namespace KinematicsSimulator.Domain.Exceptions;
 
+#pragma warning disable RCS1194
 public class DomainException : Exception
 {
     public int StatusCode { get; }
