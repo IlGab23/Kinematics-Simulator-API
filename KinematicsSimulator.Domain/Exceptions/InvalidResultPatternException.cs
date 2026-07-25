@@ -1,25 +1,16 @@
 namespace KinematicsSimulator.Domain.Exceptions;
 
-public class InvalidResultPatternException : Exception
+public class InvalidResultPatternException : DomainException
 {
-    public int StatusCode { get; }
-    public string Title { get; }
-    public InvalidResultPatternException() : base("Invalid Result state: a successful result cannot contain errors, and a failed result must contain at least one error.")
+    public InvalidResultPatternException() : base(
+        "Invalid Result state: a successful result cannot contain errors, and a failed result must contain at least one error.",
+        500,
+        "Result pattern value error")
     {
-        StatusCode = 500;
-        Title = "Result pattern value error";
     }
 
-    public InvalidResultPatternException(string? message) : base(message)
+    public InvalidResultPatternException(string message) : base(message, 500, "Result pattern value error")
     {
-        StatusCode = 500;
-        Title = "Result pattern value error";
-    }
-
-    public InvalidResultPatternException(string? message, Exception? innerException) : base(message, innerException)
-    {
-        StatusCode = 500;
-        Title = "Result pattern value error";
     }
 
 }
