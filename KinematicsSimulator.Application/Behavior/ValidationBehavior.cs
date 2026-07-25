@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 namespace KinematicsSimulator.Application.Behavior;
 
 public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators, ILogger<ValidationBehavior<TRequest, TResponse>> log)
+: IPipelineBehavior<TRequest, TResponse>
+where TRequest : IRequest<TResponse>
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
