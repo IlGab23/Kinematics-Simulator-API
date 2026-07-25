@@ -1,8 +1,21 @@
 using KinematicsSimulator.Application;
+using KinematicsSimulator.Domain.Exceptions;
 using KinematicsSimulator.Infrastructure;
 using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowedFront-end", policy =>
+    {
+        policy.WithOrigins(builder.Configuration["AllowedFrontEnd:Local"] ?? throw new InvalidCorsRouteException(),
+            builder.Configuration["AllowedFrontEnd:Web"] ?? throw new InvalidCorsRouteException())
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -41,6 +54,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowedFront-end");
 
 app.MapControllers();
 
