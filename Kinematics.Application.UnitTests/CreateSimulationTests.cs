@@ -120,7 +120,7 @@ public class CreateSimulationTests
         var handler = new CreateSimulationHandler(fakeAppDbContext.Object, fakeSimRepo.Object);
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Result.Should().Be(50.0);
 
         fakeSimRepo.Verify(repo => repo.AddAsync(It.Is<KinematicSimulation>(s => 
@@ -144,7 +144,7 @@ public class CreateSimulationTests
         var handler = new CreateSimulationHandler(fakeAppDbContext.Object, fakeSimRepo.Object);
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Result.Should().Be(13.0);
 
         fakeSimRepo.Verify(repo => repo.AddAsync(It.Is<KinematicSimulation>(s => 

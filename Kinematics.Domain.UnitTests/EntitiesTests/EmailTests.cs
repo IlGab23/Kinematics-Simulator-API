@@ -12,7 +12,7 @@ public class EmailTests
 
         var result = Email.Create(email);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Value.Should().Be("testemail@gmail.com");
     }
 

@@ -10,7 +10,7 @@ public class SimulationTypeTests
     {
         var result = SimulationType.Create("MRU");
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Value.Should().Be("MRU");
     }
     
@@ -19,7 +19,7 @@ public class SimulationTypeTests
     {
         var result = SimulationType.Create("MRUA");
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Value.Should().Be("MRUA");
     }
 
@@ -46,7 +46,7 @@ public class SimulationTypeTests
     {
         var result = SimulationType.Create("  mru  ");
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Value.Should().Be("MRU");
     }
 }

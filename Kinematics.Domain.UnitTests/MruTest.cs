@@ -15,7 +15,7 @@ public class MruTest
     {
         var result = PhysicsEngine.MRU_EquationOfMotion(initPos, velocity, time);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Should().BeApproximately(expectedResult, 0.001);
     }
 
@@ -29,7 +29,7 @@ public class MruTest
     {
         var result = PhysicsEngine.MRU_Distance(velocity, time);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Should().BeApproximately(expectedResult, 0.001);
     }
 
@@ -43,7 +43,7 @@ public class MruTest
     {
         var result = PhysicsEngine.MRU_Velocity(distance, time);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Should().BeApproximately(expectedResult, 0.001);
     }
 
@@ -57,7 +57,7 @@ public class MruTest
     {
         var result = PhysicsEngine.MRU_Time(distance, velocity);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.Should().BeApproximately(expectedResult, 0.001);
     }
 

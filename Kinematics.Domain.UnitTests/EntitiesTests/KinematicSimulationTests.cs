@@ -13,7 +13,7 @@ public class KinematicSimulationTests
         var resultValueResult = ResultValue.Create(10.5);
         var result = KinematicSimulation.Create(Guid.NewGuid(), simTypeResult.Value, resultValueResult.Value, DateTimeOffset.UtcNow);
 
-        result.IsSuccess.Should().BeTrue();
+        result.errorList.Should().BeEmpty();
         result.Value.SimulationType.Value.Should().Be("MRU");
     }
 
