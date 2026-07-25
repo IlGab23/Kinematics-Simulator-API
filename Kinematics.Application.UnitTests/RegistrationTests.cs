@@ -29,6 +29,10 @@ public class RegistrationTests
             .Setup(repo => repo.GetByEmailAsync(command.Email, It.IsAny<CancellationToken>()))
             .ReturnsAsync((DomainUser?)null);
 
+        fakePasswordHasher
+            .Setup(ph => ph.Hash(command.Password))
+            .ReturnsAsync($"HASHED-{command.Password}-HASHED");
+
         var handler = new RegisterUserHandler(fakeAppDbContext.Object, fakeUserRepo.Object, fakePasswordHasher.Object);
 
         var result = await handler.Handle(command, CancellationToken.None);
