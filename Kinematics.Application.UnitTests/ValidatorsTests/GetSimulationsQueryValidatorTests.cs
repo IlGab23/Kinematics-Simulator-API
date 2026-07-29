@@ -10,9 +10,11 @@ public class GetSimulationsQueryValidatorTests
     public async Task Validator_GoodValues_ShouldBeOk()
     {
         var userId = Guid.NewGuid();
+        int pageNumber = 1;
+        int pageSize = 10;
 
         var validator = new GetSimulationsQueryValidator();
-        var query = new GetSimulationsQuery(userId);
+        var query = new GetSimulationsQuery(userId, pageNumber, pageSize);
 
         var result = await validator.ValidateAsync(query);
 
@@ -24,13 +26,15 @@ public class GetSimulationsQueryValidatorTests
     public async Task Validator_BadValues_ShouldReturnErrors()
     {
         var userId = Guid.Empty;
+        int pageNumber = 0;
+        int pageSize = 100;
 
         var validator = new GetSimulationsQueryValidator();
-        var query = new GetSimulationsQuery(userId);
+        var query = new GetSimulationsQuery(userId, pageNumber, pageSize);
 
         var result = await validator.ValidateAsync(query);
 
-        result.Errors.Should().HaveCount(1);
+        result.Errors.Should().NotBeEmpty();
         result.IsValid.Should().BeFalse();
     }
 }

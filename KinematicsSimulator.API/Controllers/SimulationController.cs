@@ -40,12 +40,12 @@ public class SimulationController(ISender sender) : ControllerBase
 
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> GetSimulations(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetSimulations([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, CancellationToken cancellationToken = default)
     {
         var userId = GetUserId();
         if (userId is null) return Unauthorized("User ID is missing or invalid in the token.");
 
-        var query = new GetSimulationsQuery(userId.Value);
+        var query = new GetSimulationsQuery(userId.Value, pageNumber, pageSize);
 
         var result = await sender.Send(query, cancellationToken);
 
