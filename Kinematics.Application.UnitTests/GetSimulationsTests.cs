@@ -4,6 +4,7 @@ using KinematicsSimulator.Domain.Entities;
 using KinematicsSimulator.Domain.Entities.ValueObjects;
 using FluentAssertions;
 using Moq;
+using System.Linq;
 
 namespace Kinematics.Application.UnitTests;
 
@@ -13,7 +14,9 @@ public class GetSimulationsTests
     public async Task GetSimulationsHandler_GoodValues_ShouldReturnSimList()
     {
         var userId = Guid.NewGuid();
-        var query = new GetSimulationsQuery(userId);
+        int pageNumber = 2;
+        int pageSize = 15;
+        var query = new GetSimulationsQuery(userId, pageNumber, pageSize);
 
         var fakeSimRepo = new Mock<ISimulationRepository>();
 
@@ -24,16 +27,18 @@ public class GetSimulationsTests
         var mockSimulations = new List<KinematicSimulation> { sim1, sim2, sim3 };
 
         fakeSimRepo
-            .Setup(repo => repo.GetByUserIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Setup(repo => repo.GetByUserIdAsync(It.IsAny<Guid>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(mockSimulations);
 
         var handler = new GetSimulationsHandler(fakeSimRepo.Object);
         var result = await handler.Handle(query, CancellationToken.None);
 
+        fakeSimRepo.Verify(repo => repo.GetByUserIdAsync(userId, pageNumber, pageSize, It.IsAny<CancellationToken>()), Times.Once);
+
         result.errorList.Should().BeEmpty();
-        result.Value.Should().BeOfType<SimulationsOutput>();
-        result.Value.Simulations[0].Should().BeOfType<SimulationDTO>();
-        result.Value.Simulations.Should().HaveCount(3);
-        result.Value.Simulations[0].ResultValue.Should().Be(10.5);
+        result.Value.Should().NotBeNull();
+        result.Value.Items.ToList()[0].Should().BeOfType<SimulationDTO>();
+        result.Value.Items.Should().HaveCount(3);
+        result.Value.Items.ToList()[0].ResultValue.Should().Be(10.5);
     }
 }

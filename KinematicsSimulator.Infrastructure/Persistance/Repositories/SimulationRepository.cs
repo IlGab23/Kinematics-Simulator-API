@@ -12,10 +12,14 @@ public class SimulationRepository(ApplicationDbContext dbContext) : ISimulationR
         return entry.State == Microsoft.EntityFrameworkCore.EntityState.Added;
     }
 
-    public async Task<IReadOnlyList<KinematicSimulation>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<KinematicSimulation>> GetByUserIdAsync(Guid userId, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
         #pragma warning disable CDT1003
-        return await dbContext.Simulations.AsNoTracking().Where(ks => ks.UserId == userId).ToListAsync(cancellationToken);
+        return await dbContext.Simulations.AsNoTracking()
+            .Where(ks => ks.UserId == userId)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
     }
 
 }
