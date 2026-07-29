@@ -14,7 +14,7 @@ public class SimulationRepository(ApplicationDbContext dbContext) : ISimulationR
 
     public async Task<(IReadOnlyList<KinematicSimulation>, int)> GetByUserIdAsync(Guid userId, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
-        int totalDataRows = await dbContext.Simulations.CountAsync(cancellationToken);
+        int totalDataRows = await dbContext.Simulations.Where(kd => kd.UserId == userId).CountAsync(cancellationToken);
         
         #pragma warning disable CDT1003
         IReadOnlyList<KinematicSimulation> dataList = await dbContext.Simulations.AsNoTracking()

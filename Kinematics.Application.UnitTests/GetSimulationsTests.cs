@@ -28,7 +28,7 @@ public class GetSimulationsTests
 
         fakeSimRepo
             .Setup(repo => repo.GetByUserIdAsync(It.IsAny<Guid>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(mockSimulations);
+            .ReturnsAsync((mockSimulations, mockSimulations.Count));
 
         var handler = new GetSimulationsHandler(fakeSimRepo.Object);
         var result = await handler.Handle(query, CancellationToken.None);
