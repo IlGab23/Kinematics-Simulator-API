@@ -12,14 +12,18 @@ public class SimulationRepository(ApplicationDbContext dbContext) : ISimulationR
         return entry.State == Microsoft.EntityFrameworkCore.EntityState.Added;
     }
 
-    public async Task<IReadOnlyList<KinematicSimulation>> GetByUserIdAsync(Guid userId, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
+    public async Task<(IReadOnlyList<KinematicSimulation>, int)> GetByUserIdAsync(Guid userId, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
+        int totalDataRows = await dbContext.Simulations.CountAsync(cancellationToken);
+        
         #pragma warning disable CDT1003
-        return await dbContext.Simulations.AsNoTracking()
+        IReadOnlyList<KinematicSimulation> dataList = await dbContext.Simulations.AsNoTracking()
             .Where(ks => ks.UserId == userId)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync(cancellationToken);
+
+            return (dataList, totalDataRows);
     }
 
 }

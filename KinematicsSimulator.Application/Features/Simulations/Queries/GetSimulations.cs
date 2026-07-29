@@ -13,24 +13,25 @@ public class GetSimulationsHandler(ISimulationRepository simRepo) : IRequestHand
 {
     public async Task<Result<PagedList<SimulationDTO>>> Handle(GetSimulationsQuery request, CancellationToken cancellationToken)
     {
-        IReadOnlyList<KinematicSimulation> simulations = await simRepo.GetByUserIdAsync(request.UserId,
-        request.PageNumber,
-        request.PageSize,
-        cancellationToken);
+        (IReadOnlyList<KinematicSimulation> simL, int listCount) dbResult = await simRepo.GetByUserIdAsync(request.UserId,
+                                                                            request.PageNumber,
+                                                                            request.PageSize,
+                                                                            cancellationToken);
+        int totalPages = (int)Math.Ceiling((double)dbResult.listCount / (double)request.PageSize);
 
         List<SimulationDTO> outPutSimulations = new();
 
-        foreach (var sim in simulations)
+        foreach (var sim in dbResult.simL)
         {
             outPutSimulations.Add(new SimulationDTO(sim.Id, sim.UserId, sim.SimulationType.Value, sim.ResultValue.Value, sim.CreatedAt));
         }
 
         var pagedOutPut = new PagedList<SimulationDTO>(
             outPutSimulations,
-            outPutSimulations.Count,
+            dbResult.listCount,
             request.PageNumber,
             request.PageSize,
-            1
+            totalPages
         );
 
         return pagedOutPut;
